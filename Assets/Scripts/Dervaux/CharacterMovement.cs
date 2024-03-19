@@ -6,7 +6,7 @@ public class CharacterMovement : MonoBehaviour
 {
     [SerializeField, Range(1, 10)] private float _speed = 5; //m/s
 
-    [SerializeField, Range(0, 100)] private float _gravityFactor = 9.81f; 
+    [SerializeField, Range(0, 100)] private float _gravityFactor = 9.81f;
 
     Rigidbody _rigidBody;
 
@@ -39,12 +39,12 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 groundCorrection = Vector3.zero;
 
-        if(_floorSensor.IsFloorDetected() && _floorSensor.GetFloorDistance() < 0)
+        if (_floorSensor.IsFloorDetected() && _floorSensor.GetFloorDistance() < 0)
         {
-            
+
             _verticalVelocity = Vector3.zero;
 
-            if(_floorSensor.GetFloorDistance() < -0.01f)
+            if (_floorSensor.GetFloorDistance() < -0.01f)
             {
                 groundCorrection = -_floorSensor.GetFloorDistance() * transform.up;
             }
@@ -57,7 +57,7 @@ public class CharacterMovement : MonoBehaviour
         Vector3 targetVelocity = new Vector3(_inputMovement.x, 0, _inputMovement.y) * _speed;
 
         _horizontalVelocity = Vector3.SmoothDamp(_horizontalVelocity, targetVelocity, ref _smoothDampVelocity, _smoothTime, _maxSpeed);
-    
-        _rigidBody.velocity = _horizontalVelocity + _verticalVelocity + groundCorrection * Time.fixedDeltaTime ; 
+
+        _rigidBody.velocity = _horizontalVelocity + _verticalVelocity + groundCorrection * Time.fixedDeltaTime;
     }
 }
