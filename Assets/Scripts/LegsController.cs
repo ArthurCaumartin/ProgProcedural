@@ -13,7 +13,8 @@ public class LegData
     [Space]
     [SerializeField] public bool isAnimated = false;
     [SerializeField] private float animationSpeed = .2f;
-    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private AnimationCurve horizontalCurve;
+    [SerializeField] private AnimationCurve verticalCurve;
     private Vector3 startPosition;
     private float animationTime;
 
@@ -30,7 +31,10 @@ public class LegData
 
         animationTime += Time.deltaTime * animationSpeed;
         rigTarget.position =
-        Vector3.Lerp(startPosition, groundPoint.position, curve.Evaluate(animationTime));
+        Vector3.Lerp(startPosition, groundPoint.position, horizontalCurve.Evaluate(animationTime));
+
+        rigTarget.position = 
+        new Vector3(rigTarget.position.x, groundPoint.position.y + verticalCurve.Evaluate(animationTime), rigTarget.position.z);
 
         if (animationTime >= 1)
         {
@@ -71,10 +75,10 @@ public class LegsController : MonoBehaviour
     {
         int animatedLegs = 0;
         foreach (var item in legList)
-            if(item.isAnimated)
+            if (item.isAnimated)
                 animatedLegs++;
-        
-        if(animatedLegs > 3)
+
+        if (animatedLegs > 3)
             return;
 
         foreach (var item in legList)
@@ -107,12 +111,14 @@ public class LegsController : MonoBehaviour
         _inputAxis.y = 0;
     }
 
+    public float averageHeight;
+    public float averageOffSet = .1f;
     public float GetAverageHeight()
     {
-        float height = 0;
+        averageHeight = 0;
         foreach (var item in legList)
-            height += item.groundPoint.position.y;
-        
-        return height /= legList.Count;
+            averageHeight += item.groundPoint.position.y;
+
+        return averageHeight = (averageHeight / legList.Count) + averageOffSet;
     }
 }
