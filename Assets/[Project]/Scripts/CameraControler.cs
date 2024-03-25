@@ -6,6 +6,7 @@ public class CameraControler : MonoBehaviour
 {
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private Vector3 _offSet;
+    [SerializeField] private float _speed;
 
     void OnValidate()
     {
@@ -16,6 +17,6 @@ public class CameraControler : MonoBehaviour
 
     void Update()
     {
-        transform.position = _playerTransform.position + _offSet;
+        transform.position = Vector3.Lerp(transform.position, _playerTransform.position + _offSet, Time.deltaTime * _speed);
     }
 }

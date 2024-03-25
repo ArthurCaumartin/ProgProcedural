@@ -29,6 +29,8 @@ public class MineGenerator : MonoBehaviour
     [Header("Mineral :")]
     [SerializeField] private float _mineralSpawnChance = .01f;
 
+    public AnimationCurve _curveTest;
+
     private GameObject[,] _cellArray;
 
 
@@ -51,7 +53,7 @@ public class MineGenerator : MonoBehaviour
     {
         GenerateNoiseTextures();
     }
-
+    public Vector2Int whiteArea;
     private void GenerateNoiseTextures()
     {
         _hardStoneSeed = Random.Range(-10000, 10000);
@@ -64,11 +66,21 @@ public class MineGenerator : MonoBehaviour
             for (int y = 0; y < _size.y; y++)
             {
                 float pixel = 0;
+
+                float distance = Vector2Int.Distance(_size / 2, _size);
+                float curentDistance = Vector2Int.Distance(_size / 2, new Vector2Int(x, y));
+
                 Vector2 perlinPos = new Vector2(x + _stoneSeed, y + _stoneSeed) * _stoneNoiseFrequency;
+                perlinPos *= Vector2.one * 
+                _curveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, distance, curentDistance)));
+
+                // if()
+
                 pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
                 _stoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
 
-                perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
+
+                // perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
                 pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
                 _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
             }
@@ -152,11 +164,11 @@ public class MineGenerator : MonoBehaviour
         if(random < .25f)
             toReturn = Vector2Int.up;
         else if(random < .5f)
-            toReturn = Vector2Int.up;
+            toReturn = Vector2Int.down;
         else if(random < .85f)
-            toReturn = Vector2Int.up;
+            toReturn = Vector2Int.left;
         else if(random < 1f)
-            toReturn = Vector2Int.up;
+            toReturn = Vector2Int.right;
         
         print(toReturn);
         return toReturn;

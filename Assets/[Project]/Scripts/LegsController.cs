@@ -33,7 +33,7 @@ public class LegData
         rigTarget.position =
         Vector3.Lerp(startPosition, groundPoint.position, horizontalCurve.Evaluate(animationTime));
 
-        rigTarget.position = 
+        rigTarget.position =
         new Vector3(rigTarget.position.x, groundPoint.position.y + verticalCurve.Evaluate(animationTime), rigTarget.position.z);
 
         if (animationTime >= 1)
@@ -46,16 +46,24 @@ public class LegData
 
 public class LegsController : MonoBehaviour
 {
-    [SerializeField] private Transform _raycastPointContainer;
+    [SerializeField] private Transform _raycastPointsContainer;
     [SerializeField] private float _raycastPointsOffsetDistance = .3f;
     [SerializeField] private float _raycastPointsOffsetSpeed = 2f;
     [Space]
     [SerializeField] private float _animationDistanceTrigger = .3f;
+    [Space]
+    [SerializeField] private float _resetLegThresold = 1;
+    [SerializeField] private float _resetLegDistanceThresold = .2f;
     [SerializeField] private List<LegData> legList = new List<LegData>();
     private Vector3 _inputAxis;
+    private float _resetLegTimer;
+    private bool _canReset = true;
 
     void Update()
     {
+        if (_canReset)
+            ResetLegPosition();
+
         ComputeGroundPoint();
         ComputeRaycastContainerOffset();
         StartLegsAnimation();
@@ -64,10 +72,28 @@ public class LegsController : MonoBehaviour
             item.UpdateAnimation();
     }
 
+    private void ResetLegPosition()
+    {
+        if (_inputAxis == Vector3.zero)
+            _resetLegTimer += Time.deltaTime;
+        else
+            _resetLegTimer = 0;
+
+        if (_resetLegTimer > _resetLegThresold)
+        {
+            foreach (var item in legList)
+            {
+                if (Vector3.Distance(item.rigTarget.position, item.groundPoint.position) > _resetLegDistanceThresold)
+                    item.StartAnimation();
+            }
+            _canReset = false;
+        }
+    }
+
     private void ComputeRaycastContainerOffset()
     {
-        _raycastPointContainer.transform.localPosition
-         = Vector3.Lerp(_raycastPointContainer.transform.localPosition, _inputAxis * _raycastPointsOffsetDistance
+        _raycastPointsContainer.transform.localPosition
+         = Vector3.Lerp(_raycastPointsContainer.transform.localPosition, _inputAxis * _raycastPointsOffsetDistance
                         , Time.deltaTime * _raycastPointsOffsetSpeed);
     }
 
@@ -109,6 +135,8 @@ public class LegsController : MonoBehaviour
         _inputAxis = inputValue.Get<Vector2>();
         _inputAxis.z = _inputAxis.y;
         _inputAxis.y = 0;
+
+        _canReset = true;
     }
 
     public float averageHeight;
