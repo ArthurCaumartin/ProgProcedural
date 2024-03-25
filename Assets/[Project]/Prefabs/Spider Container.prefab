@@ -1102,11 +1102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1ccdcf4d8bc3148a579dd8790fdb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastPointContainer: {fileID: 7225936751090280530}
+  _raycastPointsContainer: {fileID: 7225936751090280530}
   _raycastPointsOffsetDistance: 0.2
   _raycastPointsOffsetSpeed: 3
-  _animationDistanceTrigger: 0.6
-  legList:
+  _animationDistanceTrigger: 0.5
+  _resetLegThresold: 1
+  _resetLegDistanceThresold: 0.3
+  _legList:
   - raycastPoint: {fileID: 7030587841022615996}
     groundPoint: {fileID: 7208095223484919345}
     rigTarget: {fileID: 5129405459226851077}
@@ -1869,10 +1871,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d5a9df699918e419f68de2d2bf0b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data:
-    frequency: 8.8
-    damping: 0.78
-    impulse: 1.92
+  _target: {fileID: 3369180724882340093}
+  _data2:
+    _data:
+      frequency: 5.4
+      damping: 0.6
+      impulse: 1.59
 --- !u!4 &7357256656029026658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4587743561836500, guid: 5c7f0950aa535ce4faef155ad244c136,

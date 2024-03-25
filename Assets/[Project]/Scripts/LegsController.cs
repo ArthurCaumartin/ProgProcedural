@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[Serializable]
+[System.Serializable]
 public class LegData
 {
     [SerializeField] public Transform raycastPoint;
@@ -54,7 +53,7 @@ public class LegsController : MonoBehaviour
     [Space]
     [SerializeField] private float _resetLegThresold = 1;
     [SerializeField] private float _resetLegDistanceThresold = .2f;
-    [SerializeField] private List<LegData> legList = new List<LegData>();
+    [SerializeField] private List<LegData> _legList = new List<LegData>();
     private Vector3 _inputAxis;
     private float _resetLegTimer;
     private bool _canReset = true;
@@ -68,12 +67,13 @@ public class LegsController : MonoBehaviour
         ComputeRaycastContainerOffset();
         StartLegsAnimation();
 
-        foreach (var item in legList)
+        foreach (var item in _legList)
             item.UpdateAnimation();
     }
 
     private void ResetLegPosition()
     {
+        //TODO ajouter un delais infime pour les start animation
         if (_inputAxis == Vector3.zero)
             _resetLegTimer += Time.deltaTime;
         else
@@ -81,7 +81,7 @@ public class LegsController : MonoBehaviour
 
         if (_resetLegTimer > _resetLegThresold)
         {
-            foreach (var item in legList)
+            foreach (var item in _legList)
             {
                 if (Vector3.Distance(item.rigTarget.position, item.groundPoint.position) > _resetLegDistanceThresold)
                     item.StartAnimation();
@@ -100,26 +100,50 @@ public class LegsController : MonoBehaviour
     private void StartLegsAnimation()
     {
         int animatedLegs = 0;
-        foreach (var item in legList)
+        foreach (var item in _legList)
             if (item.isAnimated)
                 animatedLegs++;
 
         if (animatedLegs > 3)
             return;
 
-        foreach (var item in legList)
+
+        float maxDistance = -Mathf.Infinity;
+        LegData farestLeg = null;
+
+        foreach (var item in _legList)
         {
-            if (Vector3.Distance(item.rigTarget.position, item.groundPoint.position) > _animationDistanceTrigger)
+            float currentDistance = Vector3.Distance(item.rigTarget.position, item.groundPoint.position);
+            if(currentDistance > maxDistance && currentDistance > _animationDistanceTrigger)
             {
-                item.StartAnimation();
-                return;
+                maxDistance = currentDistance;
+                farestLeg = item;
             }
         }
+
+        print("Farest Leg : " + farestLeg);        
+        farestLeg?.StartAnimation();            
     }
+
+    // private List<LegData> GetRandomLegList()
+    // {
+    //     List<LegData> legGrabber = _legList;
+    //     List<LegData> randomLegList = new List<LegData>();
+
+    //     for (int i = 0; i < _legList.Count; i++)
+    //     {
+    //         LegData legTaken;
+    //         legTaken = legGrabber[Random.Range(0, legGrabber.Count)];
+    //         randomLegList.Add(legTaken);
+    //         legGrabber.Remove(legTaken);
+    //     }
+
+    //     return randomLegList;
+    // }
 
     private void ComputeGroundPoint()
     {
-        foreach (var item in legList)
+        foreach (var item in _legList)
         {
             RaycastHit hit;
             Physics.Raycast(item.raycastPoint.position, Vector3.down, out hit);
@@ -144,9 +168,9 @@ public class LegsController : MonoBehaviour
     public float GetAverageHeight()
     {
         averageHeight = 0;
-        foreach (var item in legList)
+        foreach (var item in _legList)
             averageHeight += item.groundPoint.position.y;
 
-        return averageHeight = (averageHeight / legList.Count) + averageOffSet;
+        return averageHeight = (averageHeight / _legList.Count) + averageOffSet;
     }
 }
