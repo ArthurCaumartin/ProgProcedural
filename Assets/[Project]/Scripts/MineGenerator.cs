@@ -29,7 +29,12 @@ public class MineGenerator : MonoBehaviour
     [Header("Mineral :")]
     [SerializeField] private float _mineralSpawnChance = .01f;
 
-    public AnimationCurve _curveTest;
+    public AnimationCurve _perlinCurveTest;
+
+    [SerializeField, Range(0f, 1f)] private float whiteAreaRangeRatio = 5;
+    public float whiteAreaRange;
+    [SerializeField] private Vector2 _whiteAreaSpawnRatio;
+    [SerializeField] private Vector2Int _whiteAreaSpawnPosition;
 
     private GameObject[,] _cellArray;
 
@@ -53,16 +58,19 @@ public class MineGenerator : MonoBehaviour
 
     private void OnValidate()
     {
+        _whiteAreaSpawnRatio = Vector2.ClampMagnitude(_whiteAreaSpawnRatio, 1);
+
+        _whiteAreaSpawnPosition.x = (int)Mathf.Lerp(0, _size.x, _whiteAreaSpawnRatio.x);
+        _whiteAreaSpawnPosition.y = (int)Mathf.Lerp(0, _size.y, _whiteAreaSpawnRatio.y);
+
         GenerateNoiseTextures();
         whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), whiteAreaRangeRatio);
     }
 
-    [Range(0, 1)] public float whiteAreaRangeRatio = 5;
-    public float whiteAreaRange;
     private void GenerateNoiseTextures()
     {
-        _hardStoneSeed = Random.Range(-500, 500);
-        _stoneSeed = Random.Range(-500, 500);
+        _hardStoneSeed = Random.Range(0, 500);
+        _stoneSeed = Random.Range(0, 500);
 
         _stoneTexture = new Texture2D(_size.x, _size.y);
         _hardStoneTexture = new Texture2D(_size.x, _size.y);
@@ -72,22 +80,22 @@ public class MineGenerator : MonoBehaviour
             {
                 float pixel = 0;
 
-                float distance = Vector2Int.Distance(_size / 2, _size);
-                float curentDistance = Vector2Int.Distance(_size / 2, new Vector2Int(x, y));
-
                 Vector2 perlinPos = new Vector2(x + _stoneSeed, y + _stoneSeed) * _stoneNoiseFrequency;
-                perlinPos *= Vector2.one * 
-                _curveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, distance, curentDistance)));
+
+
+                //! Deforme la texture avec un remap horrible (15min a relire et recomprendre ce passage... nik toi Arthur du passé)
+                float distance = Vector2Int.Distance(_whiteAreaSpawnPosition, _size);
+                float curentDistance = Vector2Int.Distance(_whiteAreaSpawnPosition, new Vector2Int(x, y));
+                perlinPos *= _perlinCurveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, distance, curentDistance)));
+
+                //! Set la couleur du pixel de la texture
                 pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
-
-                if(Vector2.Distance(_size / 2, new Vector2(x, y)) < whiteAreaRange)
-                {
+                if (Vector2.Distance(_whiteAreaSpawnPosition, new Vector2(x, y)) < whiteAreaRange)
                     pixel = 0;
-                }
 
+                //! Valide les nouvelles data des textures
                 _stoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
                 _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
-
 
                 // perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
                 // pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
@@ -156,7 +164,7 @@ public class MineGenerator : MonoBehaviour
 
             if (IsInRange(newPos) && _cellArray[newPos.x, newPos.y] != null)
             {
-                SpawnCell(currentPos, _mineralCellPrefab); 
+                SpawnCell(currentPos, _mineralCellPrefab);
             }
             else
                 break;
@@ -169,15 +177,15 @@ public class MineGenerator : MonoBehaviour
     {
         float random = Random.value;
         Vector2Int toReturn = Vector2Int.up;
-        if(random < .25f)
+        if (random < .25f)
             toReturn = Vector2Int.up;
-        else if(random < .5f)
+        else if (random < .5f)
             toReturn = Vector2Int.down;
-        else if(random < .85f)
+        else if (random < .85f)
             toReturn = Vector2Int.left;
-        else if(random < 1f)
+        else if (random < 1f)
             toReturn = Vector2Int.right;
-        
+
         print(toReturn);
         return toReturn;
     }
