@@ -38,6 +38,8 @@ public class MineGenerator : MonoBehaviour
     {
         _cellArray = new GameObject[_size.x, _size.y];
 
+        whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), whiteAreaRangeRatio);
+
         GenerateNoiseTextures();
 
         SpawnStoneCells();
@@ -52,12 +54,15 @@ public class MineGenerator : MonoBehaviour
     private void OnValidate()
     {
         GenerateNoiseTextures();
+        whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), whiteAreaRangeRatio);
     }
-    public Vector2Int whiteArea;
+
+    [Range(0, 1)] public float whiteAreaRangeRatio = 5;
+    public float whiteAreaRange;
     private void GenerateNoiseTextures()
     {
-        _hardStoneSeed = Random.Range(-10000, 10000);
-        _stoneSeed = Random.Range(-10000, 10000);
+        _hardStoneSeed = Random.Range(-500, 500);
+        _stoneSeed = Random.Range(-500, 500);
 
         _stoneTexture = new Texture2D(_size.x, _size.y);
         _hardStoneTexture = new Texture2D(_size.x, _size.y);
@@ -73,16 +78,19 @@ public class MineGenerator : MonoBehaviour
                 Vector2 perlinPos = new Vector2(x + _stoneSeed, y + _stoneSeed) * _stoneNoiseFrequency;
                 perlinPos *= Vector2.one * 
                 _curveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, distance, curentDistance)));
-
-                // if()
-
                 pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
+
+                if(Vector2.Distance(_size / 2, new Vector2(x, y)) < whiteAreaRange)
+                {
+                    pixel = 0;
+                }
+
                 _stoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
+                _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
 
 
                 // perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
-                pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
-                _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
+                // pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
             }
         }
 
@@ -137,7 +145,7 @@ public class MineGenerator : MonoBehaviour
         int stop = 0;
         Vector2Int currentPos = spawnPos;
 
-        SpawnMineralCell(currentPos);
+        SpawnCell(spawnPos, _mineralCellPrefab);
 
         while (stop < 5)
         {
@@ -172,13 +180,6 @@ public class MineGenerator : MonoBehaviour
         
         print(toReturn);
         return toReturn;
-    }
-
-    private void SpawnMineralCell(Vector2Int positionToSpawn)
-    {
-        Destroy(_cellArray[positionToSpawn.x, positionToSpawn.y]);
-        GameObject newCell = _cellArray[positionToSpawn.x, positionToSpawn.y] = Instantiate(_mineralCellPrefab, transform);
-        newCell.transform.localPosition = new Vector3(positionToSpawn.x, 0, positionToSpawn.y);
     }
 
     [ContextMenu("Regenerate Mine")]

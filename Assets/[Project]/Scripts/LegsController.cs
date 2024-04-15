@@ -21,6 +21,7 @@ public class LegData
     {
         isAnimated = true;
         startPosition = rigTarget.position;
+        Debug.Log("Start animation");
     }
 
     public void UpdateAnimation()
@@ -53,7 +54,10 @@ public class LegsController : MonoBehaviour
     [Space]
     [SerializeField] private float _resetLegThresold = 1;
     [SerializeField] private float _resetLegDistanceThresold = .2f;
+    [Space]
+    [SerializeField] private float _averageHeightOffSet = .1f;
     [SerializeField] private List<LegData> _legList = new List<LegData>();
+    private float _averageHeight;
     private Vector3 _inputAxis;
     private float _resetLegTimer;
     private bool _canReset = true;
@@ -66,9 +70,15 @@ public class LegsController : MonoBehaviour
         ComputeGroundPoint();
         ComputeRaycastContainerOffset();
         StartLegsAnimation();
+        UpdateYPosition();
 
         foreach (var item in _legList)
             item.UpdateAnimation();
+    }
+
+    private void UpdateYPosition()
+    {
+        transform.position = new Vector3(transform.position.x, GetAverageHeight(), transform.position.z);   
     }
 
     private void ResetLegPosition()
@@ -120,26 +130,9 @@ public class LegsController : MonoBehaviour
                 farestLeg = item;
             }
         }
-
-        print("Farest Leg : " + farestLeg);        
+        
         farestLeg?.StartAnimation();            
     }
-
-    // private List<LegData> GetRandomLegList()
-    // {
-    //     List<LegData> legGrabber = _legList;
-    //     List<LegData> randomLegList = new List<LegData>();
-
-    //     for (int i = 0; i < _legList.Count; i++)
-    //     {
-    //         LegData legTaken;
-    //         legTaken = legGrabber[Random.Range(0, legGrabber.Count)];
-    //         randomLegList.Add(legTaken);
-    //         legGrabber.Remove(legTaken);
-    //     }
-
-    //     return randomLegList;
-    // }
 
     private void ComputeGroundPoint()
     {
@@ -163,14 +156,12 @@ public class LegsController : MonoBehaviour
         _canReset = true;
     }
 
-    public float averageHeight;
-    public float averageOffSet = .1f;
     public float GetAverageHeight()
     {
-        averageHeight = 0;
+        _averageHeight = 0;
         foreach (var item in _legList)
-            averageHeight += item.groundPoint.position.y;
+            _averageHeight += item.groundPoint.position.y;
 
-        return averageHeight = (averageHeight / _legList.Count) + averageOffSet;
+        return _averageHeight = (_averageHeight / _legList.Count) + _averageHeightOffSet;
     }
 }
