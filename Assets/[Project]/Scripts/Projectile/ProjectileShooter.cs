@@ -10,34 +10,36 @@ public class ProjectileShooter : MonoBehaviour
     [Space]
     [SerializeField] private float _attackSpeed = 2;
     [SerializeField] private int _multiShot;
-    private bool _isShooting = false;
-    private float _shootTimer = 0;
+    private InputAction _shootAction;
+    private bool _canShoot = false;
+    private float _shootTimer = 0f;
+
+    void Start()
+    {
+        _shootAction = GetComponent<PlayerInput>().actions.FindAction("Shoot");
+    }
 
     void Update()
     {
-        Shoot();
+        _shootTimer += Time.deltaTime * _attackSpeed;
+        _canShoot = _shootTimer > 1;
+
+        if (_shootAction.ReadValue<float>() > .5f && _canShoot)
+        {
+            _shootTimer = 0;
+            Shoot();
+        }
     }
 
     private void Shoot()
     {
-        if (!_isShooting)
-            return;
-
-        _shootTimer += Time.deltaTime * _attackSpeed;
-        if (_shootTimer > 1)
-        {
-            GameObject newProj = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
-            newProj.transform.rotation = _aimTransform.rotation;
-            _shootTimer = 0f;
-        }
+        GameObject newProj = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
+        newProj.transform.rotation = _aimTransform.rotation;
     }
 
     private void OnShoot(InputValue value)
     {
-        print("Shoot : " + value.Get<float>()); 
-        if(value.Get<float>() > .5f)
-            _isShooting = true;
-        else
-            _isShooting = false;
+
+
     }
 }
