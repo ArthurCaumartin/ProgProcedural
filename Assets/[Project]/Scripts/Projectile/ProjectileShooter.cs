@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,9 +10,13 @@ public class ProjectileShooter : MonoBehaviour
     [SerializeField] private Transform _maxAim;
 
     [Space]
-
+    [Header("STATS :")]
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private int _projectilSpeed = 1;
+    [SerializeField] private int _peirceCount = 0;
     [SerializeField] private float _attackSpeed = 2;
     [SerializeField] private int _multiShot;
+
     private List<GameObject> _shootPointList = new List<GameObject>();
     private InputAction _shootAction;
     private bool _canShoot = false;
@@ -105,6 +107,7 @@ public class ProjectileShooter : MonoBehaviour
             {
                 GameObject newProj = Instantiate(_projectilePrefab, item.transform.position, Quaternion.identity);
                 newProj.transform.rotation = item.transform.rotation;
+                newProj.GetComponent<Projectile>().Initialize(_damage, _projectilSpeed, _peirceCount);
             }
         }
     }
