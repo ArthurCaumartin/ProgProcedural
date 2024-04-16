@@ -18,6 +18,14 @@ public class TerrainCell : MonoBehaviour
 
     public CellType Type {get => _type;}
 
+    private float _noiseValue;
+    public float NoiseValue {get => _noiseValue; set => _noiseValue = value;}
+
+    public void Initialise(float noiseValue)
+    {
+        transform.localScale = new Vector3(1, noiseValue * 2, 1);
+    }
+
     public void OnHit(int damageDeal, Projectile projectileHit)
     {
         if(projectileHit && _type == CellType.Wall)
