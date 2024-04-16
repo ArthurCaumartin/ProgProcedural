@@ -49,6 +49,7 @@ public class LegsController : MonoBehaviour
     [SerializeField] private Transform _raycastPointsContainer;
     [SerializeField] private float _raycastPointsOffsetDistance = .3f;
     [SerializeField] private float _raycastPointsOffsetSpeed = 2f;
+    [SerializeField] private LayerMask _groundLayer;
     [Space]
     [SerializeField] private float _animationDistanceTrigger = .3f;
     [Space]
@@ -139,7 +140,7 @@ public class LegsController : MonoBehaviour
         foreach (var item in _legList)
         {
             RaycastHit hit;
-            Physics.Raycast(item.raycastPoint.position, Vector3.down, out hit);
+            Physics.Raycast(item.raycastPoint.position, Vector3.down, out hit, Mathf.Infinity, _groundLayer);
             if (hit.collider)
             {
                 item.groundPoint.position = hit.point;
