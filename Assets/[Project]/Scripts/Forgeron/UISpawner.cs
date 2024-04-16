@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class UISpawner : MonoBehaviour
 {
+    public GameObject Shop;
     private void OnTriggerEnter(Collider other) 
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log("OUI");
+            Shop.SetActive(true);
         }
     }
 }
+
