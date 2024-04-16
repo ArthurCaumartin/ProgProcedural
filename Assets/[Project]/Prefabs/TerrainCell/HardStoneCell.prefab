@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6268563198859890449}
   - component: {fileID: -1911252129182096063}
   m_Layer: 0
-  m_Name: HardStone
+  m_Name: HardStoneCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,4 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8376d9259a44a408a1138c69d76bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifePoint: 2
+  _type: 2
+  _lifePoint: 20

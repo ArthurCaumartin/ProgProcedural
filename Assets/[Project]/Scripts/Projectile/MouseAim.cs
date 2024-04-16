@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseAim : MonoBehaviour
 {
     [SerializeField] private Vector3 _mousePointerPose = Vector3.zero;
 
-    private void Update()
+    private void LateUpdate()
     {
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hit = Physics.RaycastAll(camRay, Mathf.Infinity);
@@ -22,6 +20,11 @@ public class MouseAim : MonoBehaviour
         }
 
         transform.LookAt(_mousePointerPose);
+    }
+
+    public Vector3 GetMousePos()
+    {
+        return _mousePointerPose;
     }
 
     void OnDrawGizmos()

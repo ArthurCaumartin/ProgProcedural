@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 //! conflit Systeme.Random et UnityEngine.Random, mais besion de Systeme pour Action 
 
 public class MineGenerator : MonoBehaviour
 {
     [Header("Cells Prafabs : ")]
-    [SerializeField] private GameObject _stoneCellPrefab;
-    [SerializeField] private GameObject _dirtCellPrefab;
-    [SerializeField] private GameObject _hardStoneCellPrefab;
-    [SerializeField] private GameObject _mineralCellPrefab;
+    [SerializeField] private TerrainCell _stoneCellPrefab;
+    [SerializeField] private TerrainCell _dirtCellPrefab;
+    [SerializeField] private TerrainCell _hardStoneCellPrefab;
+    [SerializeField] private TerrainCell _mineralCellPrefab;
+    [SerializeField] private TerrainCell _wallCellPrefab;
 
     [Header("Terrain : ")]
     [SerializeField] private Vector2Int _size;
@@ -36,19 +39,20 @@ public class MineGenerator : MonoBehaviour
     [SerializeField] private Vector2 _whiteAreaSpawnRatio;
     [SerializeField] private Vector2Int _whiteAreaSpawnPosition;
 
-    private GameObject[,] _cellArray;
+    private TerrainCell[,] _cellArray;
 
 
     private void Start()
     {
-        _cellArray = new GameObject[_size.x, _size.y];
+        _cellArray = new TerrainCell[_size.x, _size.y];
 
         _whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), _whiteAreaRangeRatio);
 
         GenerateNoiseTextures();
 
-        SpawnStoneCells();
-        SpawnHardStoneCells();
+        SpawnWallCells();
+        // SpawnStoneCells();
+        // SpawnHardStoneCells();
 
         MineralCheck();
 
@@ -105,6 +109,18 @@ public class MineGenerator : MonoBehaviour
         _hardStoneTexture.Apply();
     }
 
+    private void SpawnWallCells()
+    {
+        LoopInCellArray((x, y) =>
+        {
+            if (x == 0 || x == _size.x - 1 || y == 0 || y == _size.y - 1)
+            {
+                print("Spawn wall : " + new Vector2Int(x, y));
+                SpawnCell(new Vector2Int(x, y), _wallCellPrefab);
+            }
+        });
+    }
+
     private void SpawnStoneCells()
     {
         LoopInCellArray((x, y) =>
@@ -120,7 +136,7 @@ public class MineGenerator : MonoBehaviour
     {
         LoopInCellArray((x, y) =>
         {
-            if(Vector2.Distance(_whiteAreaSpawnPosition, new Vector2(x, y)) > _whiteAreaRange)
+            if (Vector2.Distance(_whiteAreaSpawnPosition, new Vector2(x, y)) > _whiteAreaRange)
             {
                 if (_hardStoneTexture.GetPixel(x, y).r > _hardStoneSpawnThresold)
                     SpawnCell(new Vector2Int(x, y), _hardStoneCellPrefab);
@@ -128,12 +144,19 @@ public class MineGenerator : MonoBehaviour
         });
     }
 
-    private void SpawnCell(Vector2Int position, GameObject prefab)
+    private void SpawnCell(Vector2Int position, TerrainCell cellToSpawn)
     {
+        if (_cellArray[position.x, position.x] && _cellArray[position.x, position.x].Type == CellType.Wall)
+        {
+            print("Wall at pos, return : was " + cellToSpawn.Type);
+            return;
+        }
+
         if (_cellArray[position.x, position.y] != null)
             Destroy(_cellArray[position.x, position.y]);
 
-        GameObject newCell = _cellArray[position.x, position.y] = Instantiate(prefab, transform);
+        GameObject newCell = Instantiate(cellToSpawn.gameObject, transform);
+        _cellArray[position.x, position.y] = newCell.GetComponent<TerrainCell>();
         newCell.transform.localPosition = new Vector3(position.x, 0, position.y);
     }
 

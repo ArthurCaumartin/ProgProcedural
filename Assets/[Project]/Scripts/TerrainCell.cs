@@ -1,14 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-enum CellType
+public enum CellType
 {
     Dirt,
     Stone,
+    HardStone,
     Mineral,
+    Wall,
 }
 
 public class TerrainCell : MonoBehaviour
@@ -16,9 +16,14 @@ public class TerrainCell : MonoBehaviour
     [SerializeField] private CellType _type;
     [SerializeField] private float _lifePoint = 2;
 
-    public void OnHit()
+    public CellType Type {get => _type;}
+
+    public void OnHit(int damageDeal, Projectile projectileHit)
     {
-        _lifePoint--;
+        if(projectileHit && _type == CellType.Wall)
+            Destroy(projectileHit.gameObject);
+
+        _lifePoint -= damageDeal;
         if (_lifePoint <= 0)
         {
             // if (_type == CellType.Mineral)
