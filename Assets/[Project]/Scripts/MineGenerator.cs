@@ -13,6 +13,14 @@ public class MineGenerator : MonoBehaviour
 
     [Header("Terrain : ")]
     [SerializeField] private Vector2Int _size;
+    [SerializeField, Range(0, 50)] int _startAreaSize;
+    [SerializeField, Range(0f, 1f)] private float _whiteAreaRangeRatio = 5;
+    public float _whiteAreaRange;
+    [SerializeField] private Vector2 _whiteAreaSpawnRatio;
+    [SerializeField] private Vector2Int _whiteAreaSpawnPosition;
+    [SerializeField] private AnimationCurve _perlinCurve;
+
+
 
     [Header("Stone :")]
     [SerializeField] private float _stoneSeed;
@@ -28,14 +36,6 @@ public class MineGenerator : MonoBehaviour
 
     [Header("Mineral :")]
     [SerializeField] private float _mineralSpawnChance = .01f;
-
-    public AnimationCurve _perlinCurveTest;
-
-    [SerializeField, Range(0f, 1f)] private float _whiteAreaRangeRatio = 5;
-    public float _whiteAreaRange;
-    [SerializeField] private Vector2 _whiteAreaSpawnRatio;
-    [SerializeField] private Vector2Int _whiteAreaSpawnPosition;
-    [SerializeField, Range(0, 50)] int _startAreaSize;
 
     private TerrainCell[,] _cellArray;
 
@@ -88,7 +88,7 @@ public class MineGenerator : MonoBehaviour
                 //! Deforme la texture avec un remap horrible (15min a relire et recomprendre ce passage... nik toi Arthur du passé)
                 float whiteAreaCenterDistance = Vector2Int.Distance(_whiteAreaSpawnPosition, _size);
                 float curentDistance = Vector2Int.Distance(_whiteAreaSpawnPosition, new Vector2Int(x, y));
-                perlinPos *= _perlinCurveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, whiteAreaCenterDistance, curentDistance)));
+                perlinPos *= _perlinCurve.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, whiteAreaCenterDistance, curentDistance)));
 
                 //! Set la couleur du pixel de la texture
                 pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
@@ -149,7 +149,7 @@ public class MineGenerator : MonoBehaviour
 
     private void SpawnCell(Vector2Int position, TerrainCell cellToSpawn)
     {
-        if(_cellArray[position.x, position.y] && _cellArray[position.x, position.y].Type == CellType.Wall)
+        if (_cellArray[position.x, position.y] && _cellArray[position.x, position.y].Type == CellType.Wall)
             return;
 
 
@@ -161,16 +161,16 @@ public class MineGenerator : MonoBehaviour
 
         newCell.transform.localPosition = new Vector3(position.x, 0, position.y);
 
-        if(newCell.Type == CellType.Stone)
+        if (newCell.Type == CellType.Stone)
             newCell.Initialise(_stoneTexture.GetPixel(position.x, position.y).r);
-            
-        if(newCell.Type == CellType.HardStone)
+
+        if (newCell.Type == CellType.HardStone)
             newCell.Initialise(_hardStoneTexture.GetPixel(position.x, position.y).r);
-            
-        if(newCell.Type == CellType.Wall)
+
+        if (newCell.Type == CellType.Wall)
             newCell.Initialise(2);
-    
-        if(newCell.Type == CellType.Mineral)
+
+        if (newCell.Type == CellType.Mineral)
             newCell.Initialise(1);
     }
 

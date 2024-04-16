@@ -119,4 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 4
+  _particlePrafabs: {fileID: 3691221111907887748, guid: 8407b3a5becc1f340b7e840ff1388345,
+    type: 3}
   _lifePoint: Infinity
