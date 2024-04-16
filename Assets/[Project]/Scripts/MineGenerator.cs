@@ -31,8 +31,8 @@ public class MineGenerator : MonoBehaviour
 
     public AnimationCurve _perlinCurveTest;
 
-    [SerializeField, Range(0f, 1f)] private float whiteAreaRangeRatio = 5;
-    public float whiteAreaRange;
+    [SerializeField, Range(0f, 1f)] private float _whiteAreaRangeRatio = 5;
+    public float _whiteAreaRange;
     [SerializeField] private Vector2 _whiteAreaSpawnRatio;
     [SerializeField] private Vector2Int _whiteAreaSpawnPosition;
 
@@ -43,7 +43,7 @@ public class MineGenerator : MonoBehaviour
     {
         _cellArray = new GameObject[_size.x, _size.y];
 
-        whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), whiteAreaRangeRatio);
+        _whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), _whiteAreaRangeRatio);
 
         GenerateNoiseTextures();
 
@@ -58,13 +58,13 @@ public class MineGenerator : MonoBehaviour
 
     private void OnValidate()
     {
-        _whiteAreaSpawnRatio = Vector2.ClampMagnitude(_whiteAreaSpawnRatio, 1);
+        // _whiteAreaSpawnRatio = Vector2.ClampMagnitude(_whiteAreaSpawnRatio, 1);
 
         _whiteAreaSpawnPosition.x = (int)Mathf.Lerp(0, _size.x, _whiteAreaSpawnRatio.x);
         _whiteAreaSpawnPosition.y = (int)Mathf.Lerp(0, _size.y, _whiteAreaSpawnRatio.y);
 
         GenerateNoiseTextures();
-        whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), whiteAreaRangeRatio);
+        _whiteAreaRange = Mathf.Lerp(0, Vector2.Distance(_size / 2, _size), _whiteAreaRangeRatio);
     }
 
     private void GenerateNoiseTextures()
@@ -82,23 +82,22 @@ public class MineGenerator : MonoBehaviour
 
                 Vector2 perlinPos = new Vector2(x + _stoneSeed, y + _stoneSeed) * _stoneNoiseFrequency;
 
-
                 //! Deforme la texture avec un remap horrible (15min a relire et recomprendre ce passage... nik toi Arthur du passé)
-                float distance = Vector2Int.Distance(_whiteAreaSpawnPosition, _size);
+                float whiteAreaCenterDistance = Vector2Int.Distance(_whiteAreaSpawnPosition, _size);
                 float curentDistance = Vector2Int.Distance(_whiteAreaSpawnPosition, new Vector2Int(x, y));
-                perlinPos *= _perlinCurveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, distance, curentDistance)));
+                perlinPos *= _perlinCurveTest.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, whiteAreaCenterDistance, curentDistance)));
 
                 //! Set la couleur du pixel de la texture
                 pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
-                if (Vector2.Distance(_whiteAreaSpawnPosition, new Vector2(x, y)) < whiteAreaRange)
+                if (Vector2.Distance(_whiteAreaSpawnPosition, new Vector2(x, y)) < _whiteAreaRange)
                     pixel = 0;
 
                 //! Valide les nouvelles data des textures
                 _stoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
-                _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
 
-                // perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
-                // pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
+                perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
+                pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
+                _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
             }
         }
 
@@ -121,9 +120,10 @@ public class MineGenerator : MonoBehaviour
     {
         LoopInCellArray((x, y) =>
         {
-            if (_hardStoneTexture.GetPixel(x, y).r > _hardStoneSpawnThresold)
+            if(Vector2.Distance(_whiteAreaSpawnPosition, new Vector2(x, y)) > _whiteAreaRange)
             {
-                SpawnCell(new Vector2Int(x, y), _hardStoneCellPrefab);
+                if (_hardStoneTexture.GetPixel(x, y).r > _hardStoneSpawnThresold)
+                    SpawnCell(new Vector2Int(x, y), _hardStoneCellPrefab);
             }
         });
     }
@@ -186,7 +186,7 @@ public class MineGenerator : MonoBehaviour
         else if (random < 1f)
             toReturn = Vector2Int.right;
 
-        print(toReturn);
+        // print(toReturn);
         return toReturn;
     }
 
