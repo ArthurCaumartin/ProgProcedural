@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     Rigidbody _rigidBody;
 
     Vector2 _inputMovement = Vector2.zero;
+    Vector2 _inputDash = Vector2.zero;
 
     Vector3 _horizontalVelocity = Vector3.zero;
     Vector3 _verticalVelocity = Vector3.zero;
@@ -24,6 +25,10 @@ public class CharacterMovement : MonoBehaviour
     public void Move(Vector2 inputMovement)
     {
         _inputMovement = inputMovement;
+    }
+    public void Dash(Vector2 inputDash)
+    {
+        _inputDash = inputDash;
     }
 
     // Start is called before the first frame update
