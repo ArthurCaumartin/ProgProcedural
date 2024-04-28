@@ -33,25 +33,36 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        TerrainCell cell = other.GetComponent<TerrainCell>();
-        if (!cell)
+        TerrainCell hitCell = other.gameObject.GetComponent<TerrainCell>();
+        if (!hitCell)
             return;
 
         if (!_isAoe)
         {
-            cell.OnHit(_damage, this);
-            _currentPierceCount++;
-            if (_currentPierceCount >= _pierceStrenght)
-                Destroy(gameObject);
-            return;
+            hitCell.OnHit(_damage, this);
+            ReducePierceCount();
         }
-    
-        RaycastHit hit = Physics.SphereCast(cell.transform.position
-                                        , 1f
-                                        , Vector3.zero
-                                        , )
 
+        if (_isAoe)
+        {
+            Collider[] colliderOverlap = Physics.OverlapSphere(hitCell.transform.position, 1.5f);
 
+            for (int i = 0; i < colliderOverlap.Length; i++)
+            {
+                TerrainCell overlapCell = colliderOverlap[i].gameObject.GetComponent<TerrainCell>();
+                print(colliderOverlap[i].gameObject.name);
+                overlapCell?.OnHit(_damage, this);
+                if(overlapCell)
+                    Debug.DrawLine(hitCell.transform.position, overlapCell.transform.position, Color.green, 1.5f);
+            }
+            ReducePierceCount();
+        }
+    }
 
+    private void ReducePierceCount()
+    {
+        _currentPierceCount++;
+        if (_currentPierceCount >= _pierceStrenght)
+            Destroy(gameObject);
     }
 }
