@@ -10,25 +10,29 @@ public class Projectile : MonoBehaviour
     private int _damage = 1;
     private float _speed = 1;
     private bool _isAoe = false;
+    private Transform _player;
 
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        Destroy(gameObject, 3f);
     }
 
-    public void Initialize(int damage, float speedMultiplier, int pierceCount, bool isAoe)
+    public void Initialize(int damage, float speedMultiplier, int pierceCount, bool isAoe, Transform player)
     {
         _damage = damage;
         _speed = speedMultiplier;
         _pierceStrenght = pierceCount;
         _isAoe = isAoe;
+        _player = player;
     }
 
     void FixedUpdate()
     {
         _rigidbody.velocity = transform.forward * _speed;
+
+        if(Vector3.Distance(_player.position, transform.position) > 5)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider other)

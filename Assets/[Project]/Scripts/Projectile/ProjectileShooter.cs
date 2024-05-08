@@ -110,7 +110,7 @@ public class ProjectileShooter : MonoBehaviour
             {
                 GameObject newProj = Instantiate(_projectilePrefab, item.transform.position, Quaternion.identity);
                 newProj.transform.rotation = item.transform.rotation;
-                newProj.GetComponent<Projectile>().Initialize(_damage, _projectilSpeed, _peirceCount, _isAoeEnable);
+                newProj.GetComponent<Projectile>().Initialize(_damage, _projectilSpeed, _peirceCount, _isAoeEnable, transform);
             }
         }
     }
