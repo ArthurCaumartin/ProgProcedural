@@ -19,4 +19,21 @@ public class StatsBuff : MonoBehaviour
     {
         projectileShooter.UnlockShot();
     }
+    public void AS()
+
+    {
+        projectileShooter.BuffAs();
+    }
+    public void Pierce()
+    {
+        projectileShooter.BuffPierce();
+    }
+    public void ProjectileSpeedBuff()
+    {
+        projectileShooter.ProjectileSpeed();
+    }
+    public void Damage()
+    {
+        projectileShooter.BuffDamage();
+    }
 }

@@ -143,4 +143,8 @@ public class ProjectileShooter : MonoBehaviour
     {
         _peirceCount ++;
     }
+    public void BuffAs()
+    {
+        _attackSpeed ++;
+    }
 }
