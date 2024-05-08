@@ -16,6 +16,7 @@ public class MobBehavior : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        print("Trigger : " + other.name);
         if(other.tag != "Player")
             return;
         
