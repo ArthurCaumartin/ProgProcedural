@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class MineGenerator : MonoBehaviour
 {
-    [Header("Cells Prafabs : ")]
+    [Header("Prafabs : ")]
     [SerializeField] private TerrainCell _stoneCellPrefab;
     [SerializeField] private TerrainCell _dirtCellPrefab;
     [SerializeField] private TerrainCell _hardStoneCellPrefab;
     [SerializeField] private TerrainCell _mineralCellPrefab;
     [SerializeField] private TerrainCell _wallCellPrefab;
+    [SerializeField] private GameObject _mobPrefab;
 
     [Header("Terrain : ")]
     [SerializeField] private Vector2Int _size;
     [SerializeField, Range(0, 50)] int _startAreaSize;
     [SerializeField, Range(0f, 1f)] private float _whiteAreaRangeRatio = 5;
-    public float _whiteAreaRange;
+    [SerializeField] private float _whiteAreaRange;
     [SerializeField] private Vector2 _whiteAreaSpawnRatio;
     [SerializeField] private Vector2Int _whiteAreaSpawnPosition;
     [SerializeField] private AnimationCurve _perlinCurve;
@@ -38,7 +39,7 @@ public class MineGenerator : MonoBehaviour
     [SerializeField] private float _mineralSpawnChance = .01f;
 
     private TerrainCell[,] _cellArray;
-
+    public bool _spawnEnemy = false;
 
     private void Start()
     {
@@ -52,6 +53,9 @@ public class MineGenerator : MonoBehaviour
 
         SpawnStoneCells();
         SpawnHardStoneCells();
+
+        if(_spawnEnemy)
+            SpawnMob();
 
         MineralCheck();
 
@@ -99,11 +103,11 @@ public class MineGenerator : MonoBehaviour
                 if (Vector2Int.Distance(new Vector2Int(x, y), Vector2Int.zero) < _startAreaSize)
                     pixel = 0;
 
-                //! Valide les nouvelles data des textures
+                // //! Valide les nouvelles data des textures
                 _stoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
 
-                perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
-                pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
+                // perlinPos = new Vector2(x + _hardStoneSeed, y + _hardStoneSeed) * _hardStoneNoiseFrequency;
+                // pixel = Mathf.PerlinNoise(perlinPos.x, perlinPos.y);
                 _hardStoneTexture.SetPixel(x, y, new Color(pixel, pixel, pixel));
             }
         }
@@ -147,6 +151,19 @@ public class MineGenerator : MonoBehaviour
         });
     }
 
+    private void SpawnMob()
+    {
+        LoopInCellArray((x, y) =>
+        {
+            if (!_cellArray[x, y] && Random.value < .02f)
+            {
+                print("spawnMob");
+                GameObject newMob = Instantiate(_mobPrefab, transform);
+                newMob.transform.localPosition = new Vector3(x, 0, y);
+            }
+        });
+    }
+
     private void SpawnCell(Vector2Int position, TerrainCell cellToSpawn)
     {
         if (_cellArray[position.x, position.y] && _cellArray[position.x, position.y].Type == CellType.Wall)
@@ -178,10 +195,14 @@ public class MineGenerator : MonoBehaviour
     {
         LoopInCellArray((x, y) =>
         {
-            if (_cellArray[x, y] && Random.value < _mineralSpawnChance)
+            if (_cellArray[x, y] && Random.value / (_spawnEnemy ? 2 : 1) < _mineralSpawnChance)
             {
                 SpawnMineralVein(new Vector2Int(x, y));
             }
+
+            //! Spawn les mineraux dans la zone blanche
+            if(Vector2Int.Distance(new Vector2Int(x, y), _whiteAreaSpawnPosition) < _whiteAreaRange * .9f)
+                SpawnCell(new Vector2Int(x, y), _mineralCellPrefab);
         });
     }
 
@@ -266,5 +287,10 @@ public class MineGenerator : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void SetEnemySpawn(bool value)
+    {
+        _spawnEnemy = true;
     }
 }

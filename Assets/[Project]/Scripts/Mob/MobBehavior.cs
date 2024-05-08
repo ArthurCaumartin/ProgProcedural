@@ -38,7 +38,7 @@ public class MobBehavior : MonoBehaviour
 
         if(dotToPlayer > .80f && _attackTimer > _atkDelay && !_currentAttack)
             Attack();
-        print(dotToPlayer);
+        // print(dotToPlayer);
     }
 
     private void Attack()
