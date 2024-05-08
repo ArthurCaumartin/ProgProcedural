@@ -146,6 +146,6 @@ public class ProjectileShooter : MonoBehaviour
     }
     public void BuffAs()
     {
-        _attackSpeed ++;
+        _attackSpeed += 0.1f;
     }
 }
