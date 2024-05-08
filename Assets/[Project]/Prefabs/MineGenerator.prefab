@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4479533889005038471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5355128583304556156}
+  - component: {fileID: 876700921770970310}
+  - component: {fileID: 3139155673676825908}
+  m_Layer: 0
+  m_Name: MineGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5355128583304556156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4479533889005038471}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 1, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &876700921770970310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4479533889005038471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &3139155673676825908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4479533889005038471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a338a85fbde59ab4993a34582dc53918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stoneCellPrefab: {fileID: 18792488826652419, guid: 94e9d40f0745f8e48a3b9e546270b467,
+    type: 3}
+  _dirtCellPrefab: {fileID: 4905924039576323975, guid: 40f4688e98620b9429ce5c56e40e9895,
+    type: 3}
+  _hardStoneCellPrefab: {fileID: -1911252129182096063, guid: 5d14784ec3623f947a9d62bd24e9ef91,
+    type: 3}
+  _mineralCellPrefab: {fileID: 2934945747171116508, guid: 66c785e6d22f98f418bedbef25f4957f,
+    type: 3}
+  _wallCellPrefab: {fileID: 18792488826652419, guid: c5d69b548d638fd4b821534e60cf2127,
+    type: 3}
+  _size: {x: 200, y: 200}
+  _startAreaSize: 19
+  _whiteAreaRangeRatio: 0.117
+  _whiteAreaRange: 16.546299
+  _whiteAreaSpawnRatio: {x: 0.75, y: 0.75}
+  _whiteAreaSpawnPosition: {x: 150, y: 150}
+  _perlinCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.007479176
+      value: 0.99916005
+      inSlope: -0.46821842
+      outSlope: -0.46821842
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.69519603
+      value: 0.67715836
+      inSlope: -0.003191535
+      outSlope: -0.003191535
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.98656464
+      value: 0.9783443
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _stoneSeed: 235
+  _stoneNoiseFrequency: 0.216
+  _stoneSpawnThresold: 0.47
+  _stoneTexture: {fileID: 0}
+  _hardStoneSeed: 493
+  _hardStoneNoiseFrequency: 0.086
+  _hardStoneSpawnThresold: 0.631
+  _hardStoneTexture: {fileID: 0}
+  _mineralSpawnChance: 0.02
