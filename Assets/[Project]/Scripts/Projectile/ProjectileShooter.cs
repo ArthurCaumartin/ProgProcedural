@@ -127,4 +127,8 @@ public class ProjectileShooter : MonoBehaviour
             Gizmos.DrawRay(_maxAim.transform.position, _maxAim.transform.forward);
         }
     }
+    public void UnlockShot()
+    {
+        _multiShot ++;
+    } 
 }
