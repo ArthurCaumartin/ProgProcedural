@@ -137,6 +137,10 @@ public class ProjectileShooter : MonoBehaviour
     }
     public void ProjectileSpeed()
     {
-        
+        _projectilSpeed ++;
+    }
+    public void BuffPierce()
+    {
+        _peirceCount ++;
     }
 }
