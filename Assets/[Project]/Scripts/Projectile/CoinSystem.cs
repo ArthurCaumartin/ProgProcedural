@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class CoinSystem : MonoBehaviour
 {
+    public static CoinSystem instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     public bool canbuy = false;
     public int coin = 10;
     public void cost()
@@ -13,17 +20,17 @@ public class CoinSystem : MonoBehaviour
     }
     public void CheckCount()
     {
-        if(coin <10)
+        if (coin < 10)
         {
             print("t pauvre");
-        } 
+        }
         else
         {
             canbuy = true;
         }
     }
-    private void Update() 
+    private void Update()
     {
-        
+
     }
 }
