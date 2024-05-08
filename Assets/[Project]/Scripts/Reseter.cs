@@ -11,16 +11,19 @@ public class Reseter : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField] private Volume _resetVolume;
     [Space]
+    [SerializeField] private MineGenerator _mineGenerator;
     [SerializeField] private bool _isResetHold = false;
     [SerializeField] private float _speed;
     [SerializeField] private float _time;
 
     private CharacterMovement _characterMovement;
+    private ProjectileShooter _projectileShooter;
     private Vector3 _resetPoint;
 
     void Start()
     {
         _characterMovement = GetComponent<CharacterMovement>();
+        _projectileShooter = GetComponent<ProjectileShooter>();
         _resetPoint = transform.position;
     }
 
@@ -29,7 +32,10 @@ public class Reseter : MonoBehaviour
         if (_isResetHold)
             _time += Time.deltaTime * _speed;
         else
-            _time = 0;
+        {
+            if(_time > 0)
+                _time -= Time.deltaTime * _speed;
+        }
 
         _image.fillAmount = _time;
         _resetVolume.weight = _time;
@@ -44,6 +50,7 @@ public class Reseter : MonoBehaviour
 
         Vector3 animationStartPoint = transform.position;
         _characterMovement.enabled = false;
+        _projectileShooter.enabled = false;
 
         DOTween.To((time) =>
         {
@@ -51,9 +58,21 @@ public class Reseter : MonoBehaviour
         }, 0, 1, 1)
         .OnComplete(() =>
         {
-            _characterMovement.enabled = true;
-            enabled = true;
-            _time = 0;
+            StartCoroutine(_mineGenerator.SpawnNewMine(() =>
+            {
+                DOTween.To((time) =>
+                {
+                    _time = time;
+                    _image.fillAmount = _time;
+                    _resetVolume.weight = _time;
+                }, 1, 0, 2)
+                .OnComplete(() =>
+                {
+                    _characterMovement.enabled = true;
+                    _projectileShooter.enabled = true;
+                    enabled = true;
+                });
+            }));
         });
     }
 

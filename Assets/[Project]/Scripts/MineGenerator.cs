@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 //! conflit Systeme.Random et UnityEngine.Random, mais besion de Systeme pour Action 
@@ -40,6 +41,7 @@ public class MineGenerator : MonoBehaviour
     [SerializeField] private float _mineralSpawnChance = .01f;
 
     private TerrainCell[,] _cellArray;
+    private List<GameObject> _mobList = new List<GameObject>();
     public bool _spawnEnemy = false;
 
     IEnumerator Start()
@@ -65,7 +67,7 @@ public class MineGenerator : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator SpawnMine()
+    public IEnumerator SpawnNewMine(System.Action toDoAfter = null)
     {
         DeleteMine();
         SpawnWallCells();
@@ -78,7 +80,10 @@ public class MineGenerator : MonoBehaviour
             SpawnMob();
 
         MineralCheck();
-        yield return null;
+
+        yield return new WaitForSeconds(1f);
+        if(toDoAfter != null)
+            toDoAfter();
     }
 
     private void OnValidate()
@@ -178,6 +183,7 @@ public class MineGenerator : MonoBehaviour
                 print("spawnMob");
                 GameObject newMob = Instantiate(_mobPrefab, transform);
                 newMob.transform.localPosition = new Vector3(x, 0, y);
+                _mobList.Add(newMob);
             }
         });
     }
@@ -276,10 +282,14 @@ public class MineGenerator : MonoBehaviour
     [ContextMenu("Delete Mine")]
     private void DeleteMine()
     {
+        foreach (var item in _mobList)
+            Destroy(item);
+        _mobList.Clear();
+
         LoopInCellArray((x, y) =>
         {
             if (_cellArray[x, y])
-                Destroy(_cellArray[x, y]);
+                Destroy(_cellArray[x, y].gameObject);
         });
     }
 
