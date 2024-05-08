@@ -39,8 +39,8 @@ public class TerrainCell : MonoBehaviour
             //! Add Coin / Exp 
             if (_type == CellType.Mineral)
             {
-
                 GameObject particle = Instantiate(_particlePrafabs.gameObject, transform.position, Quaternion.identity);
+                CoinSystem.instance.coin += 1;
                 Destroy(particle, _particlePrafabs.main.duration);
             }
             Destroy(gameObject);
