@@ -6,14 +6,14 @@ public class StatsBuff : MonoBehaviour
 {
     public ProjectileShooter projectileShooter;
     public HealBox healBox;
-    public CharacterMovement speedBuff;
+    public CharacterMovement characterMovement;
     public void HealUp()
     {
         healBox.BuffHeal();
     }
     public void SpeedUp()
     {
-        speedBuff.AddSpeed();
+        characterMovement.AddSpeed();
     }
     public void UnlockShooter()
     {
@@ -35,5 +35,9 @@ public class StatsBuff : MonoBehaviour
     public void Damage()
     {
         projectileShooter.BuffDamage();
+    }
+    public void Unlockdash()
+    {
+        characterMovement.DashUnlock();
     }
 }

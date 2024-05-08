@@ -2646,7 +2646,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 922612454}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2035854356}
+        m_TargetAssemblyTypeName: StatsBuff, Assembly-CSharp
+        m_MethodName: Unlockdash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &922612454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4704,7 +4716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2035854352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4802,7 +4814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileShooter: {fileID: 1725966848}
   healBox: {fileID: 694184710}
-  speedBuff: {fileID: 1725966850}
+  characterMovement: {fileID: 1725966850}
 --- !u!1 &2057520358
 GameObject:
   m_ObjectHideFlags: 0

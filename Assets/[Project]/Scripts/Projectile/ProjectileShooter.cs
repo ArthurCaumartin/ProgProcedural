@@ -17,6 +17,7 @@ public class ProjectileShooter : MonoBehaviour
     [SerializeField] private float _attackSpeed = 2;
     [SerializeField] private int _multiShot;
     [SerializeField] private bool _isAoeEnable = false;
+
     
 
     private List<GameObject> _shootPointList = new List<GameObject>();

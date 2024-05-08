@@ -22,6 +22,7 @@ public class CharacterMovement : MonoBehaviour
     float dashSpeed = 10f;
     float dashduration = 0.5f;
     private bool isDashing = false;
+    private bool isDashingEnabled = false;
 
     private FloorSensor _floorSensor;
 
@@ -74,7 +75,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && isDashingEnabled == true)
         {
             Debug.Log("Dash");
             StartCoroutine(Dash());
@@ -93,5 +94,9 @@ public class CharacterMovement : MonoBehaviour
 
         isDashing = false;
         _rigidBody.velocity = Vector3.zero;
+    }
+    public void DashUnlock()
+    {
+        isDashingEnabled = true;
     }
 }
