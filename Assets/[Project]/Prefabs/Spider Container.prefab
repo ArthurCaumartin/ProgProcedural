@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8847522485529156264}
   m_Layer: 15
   m_Name: Spider Container
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,6 +62,7 @@ Transform:
   m_Children:
   - {fileID: 3369180724882340093}
   - {fileID: 2579261395721904166}
+  - {fileID: 2234269345513739616}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1718520167109019933
@@ -948,9 +949,11 @@ GameObject:
   - component: {fileID: 3347505229076455956}
   - component: {fileID: 1843209988438219079}
   - component: {fileID: 7458014361297433888}
+  - component: {fileID: 3641994370175836551}
+  - component: {fileID: 8268555831980236613}
   m_Layer: 15
   m_Name: SpiderControler
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1317,7 +1320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f69d2f059fc24e40a6b02000df1e6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2.06
+  _speed: 2
   _gravityFactor: 9.81
 --- !u!54 &1843209988438219079
 Rigidbody:
@@ -1367,8 +1370,42 @@ MonoBehaviour:
   _projectilSpeed: 5
   _peirceCount: 0
   _attackSpeed: 10
-  _multiShot: 4
+  _multiShot: 1
   _isAoeEnable: 1
+--- !u!114 &3641994370175836551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173499261279041471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28889baaac15f5c429be1de19a7e6359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+--- !u!65 &8268555831980236613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173499261279041471}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6586189675356930576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1614,100 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2945245618306588461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6147559946147642140
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8847522485529156264}
+    m_Modifications:
+    - target: {fileID: 3139155673676825908, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: _stoneSeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3139155673676825908, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: _stoneTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3139155673676825908, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: _hardStoneSeed
+      value: 477
+      objectReference: {fileID: 0}
+    - target: {fileID: 3139155673676825908, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: _hardStoneTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479533889005038471, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_Name
+      value: MineGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af13cddd55a7e4542a37e9fe05547e8c, type: 3}
+--- !u!4 &2234269345513739616 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5355128583304556156, guid: af13cddd55a7e4542a37e9fe05547e8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6147559946147642140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7352818491146104502
 PrefabInstance:
   m_ObjectHideFlags: 0
