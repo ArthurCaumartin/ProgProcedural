@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/[Project]/Scenes/Menu.unity
     guid: d98a470020b284b4a8b058d0ce1c5c87
   - enabled: 1
-    path: Assets/[Project]/Scenes/Demo.unity
-    guid: 6bf7f4286243db8479aef7c274254103
+    path: Assets/[Project]/Scenes/OscarScene.unity
+    guid: f3b358c877fcee943822a4da1d9b0492
   m_configObjects: {}
