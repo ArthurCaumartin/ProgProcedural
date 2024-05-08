@@ -20,6 +20,7 @@ public class MouseAim : MonoBehaviour
         }
 
         transform.LookAt(_mousePointerPose);
+        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
     public Vector3 GetMousePos()

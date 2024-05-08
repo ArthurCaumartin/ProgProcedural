@@ -16,6 +16,8 @@ public class ProjectileShooter : MonoBehaviour
     [SerializeField] private int _peirceCount = 0;
     [SerializeField] private float _attackSpeed = 2;
     [SerializeField] private int _multiShot;
+    [SerializeField] private bool _isAoeEnable = false;
+    
 
     private List<GameObject> _shootPointList = new List<GameObject>();
     private InputAction _shootAction;
@@ -107,7 +109,7 @@ public class ProjectileShooter : MonoBehaviour
             {
                 GameObject newProj = Instantiate(_projectilePrefab, item.transform.position, Quaternion.identity);
                 newProj.transform.rotation = item.transform.rotation;
-                newProj.GetComponent<Projectile>().Initialize(_damage, _projectilSpeed, _peirceCount);
+                newProj.GetComponent<Projectile>().Initialize(_damage, _projectilSpeed, _peirceCount, _isAoeEnable);
             }
         }
     }
