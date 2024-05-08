@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour
     [SerializeField] private string _gameSceneName;
     public void StartGame()
     {
-        SceneManager.LoadScene(_gameSceneName);
+        SceneManager.LoadScene("OscarScene");
     }
 
     public void Quit()
