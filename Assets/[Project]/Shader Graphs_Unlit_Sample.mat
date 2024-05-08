@@ -56,15 +56,15 @@ Material:
     - _movingSpeed: 0.27
     - _mult: 3.57
     - _rotateSpeed: 2.25
-    - _size: 1.98
+    - _size: 1.99
     - _speed: 1
-    - _voronoi1: 10
+    - _voronoi1: 9.73
     - _voronoi1Speed: 0.05
     - _voronoi2: -8.99
     - _voronoi2Speed: 0.05
     - _voronoiSpeed: 3.15
     m_Colors:
-    - _Color: {r: 0.254717, g: 0.21876955, b: 0.18903524, a: 1}
+    - _Color: {r: 0.35686275, g: 0.48235294, b: 0.4701258, a: 1}
     - _mult: {r: 10, g: 1, b: 10, a: 0}
     - _size: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
