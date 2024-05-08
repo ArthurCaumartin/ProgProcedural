@@ -131,4 +131,12 @@ public class ProjectileShooter : MonoBehaviour
     {
         _multiShot ++;
     } 
+    public void BuffDamage()
+    {
+        _damage ++;
+    }
+    public void ProjectileSpeed()
+    {
+        
+    }
 }
