@@ -65,4 +65,8 @@ public class CharacterMovement : MonoBehaviour
 
         _rigidBody.velocity = _horizontalVelocity + _verticalVelocity + groundCorrection * Time.fixedDeltaTime;
     }
+    public void AddSpeed()
+    {
+        _speed += 0.2f;
+    }
 }

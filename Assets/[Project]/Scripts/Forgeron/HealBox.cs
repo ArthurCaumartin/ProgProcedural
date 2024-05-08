@@ -9,7 +9,11 @@ public class HealBox : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            playerHealth.health += 5;
+            BuffHeal();
         }
+    }
+    public void BuffHeal()
+    {
+        playerHealth.health += 5;
     }
 }
