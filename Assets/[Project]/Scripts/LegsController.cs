@@ -21,7 +21,7 @@ public class LegData
     {
         isAnimated = true;
         startPosition = rigTarget.position;
-        Debug.Log("Start animation");
+        // Debug.Log("Start animation");
     }
 
     public void UpdateAnimation()
