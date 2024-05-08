@@ -19,16 +19,15 @@ public class CharacterMovement : MonoBehaviour
     Vector3 _smoothDampVelocity = Vector3.zero;
     float _smoothTime = 0.1f;
     float _maxSpeed = 50;
+    float dashSpeed = 10f;
+    float dashduration = 0.5f;
+    private bool isDashing = false;
 
     private FloorSensor _floorSensor;
 
     public void Move(Vector2 inputMovement)
     {
         _inputMovement = inputMovement;
-    }
-    public void Dash(Vector2 inputDash)
-    {
-        _inputDash = inputDash;
     }
 
     // Start is called before the first frame update
@@ -41,6 +40,10 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(isDashing)
+        {
+            return;
+        }
 
         Vector3 groundCorrection = Vector3.zero;
 
@@ -68,5 +71,27 @@ public class CharacterMovement : MonoBehaviour
     public void AddSpeed()
     {
         _speed += 0.2f;
+    }
+    private void Update() 
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing)
+        {
+            Debug.Log("Dash");
+            StartCoroutine(Dash());
+        }
+    }
+     IEnumerator Dash()
+    {
+        isDashing = true;
+        float startTime = Time.time;
+
+        while (Time.time < startTime + dashduration)
+        {
+            _rigidBody.velocity = new Vector3(_inputMovement.x, 0, _inputMovement.y) * dashSpeed;
+            yield return null;
+        }
+
+        isDashing = false;
+        _rigidBody.velocity = Vector3.zero;
     }
 }
