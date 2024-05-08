@@ -8,6 +8,11 @@ public class MobBehavior : MonoBehaviour
 {
     [SerializeField] private float _rotateTime = .05f;
     [SerializeField] private float _atkDelay = 3;
+    [Space]
+    [SerializeField] private float _damage;
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private MobAttack _attackPrefabs;
+    private MobAttack _currentAttack;
     private Transform _target;
     private Vector3 _startScale;
     private Vector3 _rotateVel = Vector3.zero;
@@ -31,7 +36,7 @@ public class MobBehavior : MonoBehaviour
         float dotToPlayer = Vector3.Dot(forwardTarget, transform.forward);
         _attackTimer += Time.deltaTime;
 
-        if(dotToPlayer > .95f && _attackTimer > _atkDelay)
+        if(dotToPlayer > .80f && _attackTimer > _atkDelay && !_currentAttack)
             Attack();
         print(dotToPlayer);
     }
@@ -39,7 +44,8 @@ public class MobBehavior : MonoBehaviour
     private void Attack()
     {
         _attackTimer = 0;
-
+        _currentAttack = Instantiate(_attackPrefabs, transform);
+        _currentAttack.Initialize(_damage, _attackSpeed);
     }
 
     void OnTriggerEnter(Collider other)
