@@ -9,6 +9,7 @@ public class StatsBuff : MonoBehaviour
     public HealBox healBox;
     public CharacterMovement characterMovement;
     public CoinSystem coinSystem;
+    public MineGenerator mineGenerator;
     public void HealUp()
     {
         if(coinSystem.canbuy == true)
@@ -73,5 +74,10 @@ public class StatsBuff : MonoBehaviour
             coinSystem.cost();
             characterMovement.DashUnlock();
         }
+    }
+    public void DevilDeal()
+    {
+        coinSystem.cost();
+        mineGenerator.SetEnemySpawn(true);
     }
 }
