@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 //! conflit Systeme.Random et UnityEngine.Random, mais besion de Systeme pour Action 
@@ -41,7 +42,7 @@ public class MineGenerator : MonoBehaviour
     private TerrainCell[,] _cellArray;
     public bool _spawnEnemy = false;
 
-    private void Start()
+    IEnumerator Start()
     {
         _cellArray = new TerrainCell[_size.x, _size.y];
 
@@ -54,13 +55,30 @@ public class MineGenerator : MonoBehaviour
         SpawnStoneCells();
         SpawnHardStoneCells();
 
-        if(_spawnEnemy)
+        if (_spawnEnemy)
             SpawnMob();
 
         MineralCheck();
 
         // print(IsInRange(new Vector2Int(-1, -1)) ? "In range" : "Not in Range");
         // print(IsInRange(new Vector2Int(1, 1)) ? "In range" : "Not in Range");
+        yield return null;
+    }
+
+    IEnumerator SpawnMine()
+    {
+        DeleteMine();
+        SpawnWallCells();
+        GenerateNoiseTextures();
+
+        SpawnStoneCells();
+        SpawnHardStoneCells();
+
+        if (_spawnEnemy)
+            SpawnMob();
+
+        MineralCheck();
+        yield return null;
     }
 
     private void OnValidate()
@@ -201,7 +219,7 @@ public class MineGenerator : MonoBehaviour
             }
 
             //! Spawn les mineraux dans la zone blanche
-            if(Vector2Int.Distance(new Vector2Int(x, y), _whiteAreaSpawnPosition) < _whiteAreaRange * .9f)
+            if (Vector2Int.Distance(new Vector2Int(x, y), _whiteAreaSpawnPosition) < _whiteAreaRange * .7f)
                 SpawnCell(new Vector2Int(x, y), _mineralCellPrefab);
         });
     }
