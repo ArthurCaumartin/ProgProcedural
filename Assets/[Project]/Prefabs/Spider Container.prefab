@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8847522485529156264}
   m_Layer: 15
   m_Name: Spider Container
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -950,6 +950,7 @@ GameObject:
   - component: {fileID: 7458014361297433888}
   - component: {fileID: 3641994370175836551}
   - component: {fileID: 8268555831980236613}
+  - component: {fileID: 7102029758153550364}
   m_Layer: 15
   m_Name: SpiderControler
   m_TagString: Player
@@ -1405,6 +1406,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7102029758153550364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173499261279041471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29eaf972cdba6bf44b7f4d0b71496bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canbuy: 0
+  coin: 10
 --- !u!1 &6586189675356930576
 GameObject:
   m_ObjectHideFlags: 0

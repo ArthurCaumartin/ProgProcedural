@@ -13,6 +13,16 @@ public class CoinSystem : MonoBehaviour
 
     public bool canbuy = false;
     public int coin = 10;
+    public int Coin
+    {
+        get => coin;
+        set
+        {
+            coin = value;
+            CanvasManager.instance.SetCoinText(coin);
+        }
+    }
+    
     public void cost()
     {
         coin -= 10;

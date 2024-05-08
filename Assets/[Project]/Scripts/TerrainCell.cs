@@ -40,7 +40,7 @@ public class TerrainCell : MonoBehaviour
             if (_type == CellType.Mineral)
             {
                 GameObject particle = Instantiate(_particlePrafabs.gameObject, transform.position, Quaternion.identity);
-                CoinSystem.instance.coin += 1;
+                CoinSystem.instance.Coin += 1;
                 Destroy(particle, _particlePrafabs.main.duration);
             }
             Destroy(gameObject);

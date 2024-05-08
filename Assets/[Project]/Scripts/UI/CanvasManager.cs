@@ -16,7 +16,7 @@ public class CanvasManager : MonoBehaviour
 
     void Start()
     {
-        SetCoinText(CoinSystem.instance.coin);
+        SetCoinText(CoinSystem.instance.Coin);
     }
 
     public void SetCoinText(int value)
