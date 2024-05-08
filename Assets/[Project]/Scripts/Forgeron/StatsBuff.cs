@@ -13,6 +13,7 @@ public class StatsBuff : MonoBehaviour
     {
         if(coinSystem.canbuy == true)
         {
+            coinSystem.cost();
             healBox.BuffHeal();
         }
     }

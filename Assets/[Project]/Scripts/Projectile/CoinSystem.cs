@@ -8,7 +8,7 @@ public class CoinSystem : MonoBehaviour
     public int coin = 10;
     public void cost()
     {
-        coin =- 10;
+        coin -= 10;
         canbuy = false;
     }
     public void CheckCount()
@@ -20,7 +20,6 @@ public class CoinSystem : MonoBehaviour
         else
         {
             canbuy = true;
-            cost();
         }
     }
     private void Update() 
