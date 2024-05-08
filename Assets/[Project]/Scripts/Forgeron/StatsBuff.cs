@@ -19,31 +19,59 @@ public class StatsBuff : MonoBehaviour
     }
     public void SpeedUp()
     {
-        characterMovement.AddSpeed();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            characterMovement.AddSpeed();
+        }
     }
     public void UnlockShooter()
     {
-        projectileShooter.UnlockShot();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            projectileShooter.UnlockShot();
+        }
     }
     public void AS()
 
     {
-        projectileShooter.BuffAs();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            projectileShooter.BuffAs();
+        }
     }
     public void Pierce()
     {
-        projectileShooter.BuffPierce();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            projectileShooter.BuffPierce();
+        }
     }
     public void ProjectileSpeedBuff()
     {
-        projectileShooter.ProjectileSpeed();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            projectileShooter.ProjectileSpeed();
+        }
     }
     public void Damage()
     {
-        projectileShooter.BuffDamage();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            projectileShooter.BuffDamage();
+        }
     }
     public void Unlockdash()
     {
-        characterMovement.DashUnlock();
+        if(coinSystem.canbuy == true)
+        {
+            coinSystem.cost();
+            characterMovement.DashUnlock();
+        }
     }
 }
