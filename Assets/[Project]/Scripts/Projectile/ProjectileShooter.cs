@@ -16,7 +16,7 @@ public class ProjectileShooter : MonoBehaviour
     [SerializeField] private int _peirceCount = 0;
     [SerializeField] private float _attackSpeed = 2;
     [SerializeField] private int _multiShot;
-    [SerializeField] private bool _isAoeEnable = false;
+    [SerializeField] public  bool _isAoeEnable = false;
 
     
 

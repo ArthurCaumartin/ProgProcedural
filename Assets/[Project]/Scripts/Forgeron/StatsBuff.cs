@@ -80,4 +80,9 @@ public class StatsBuff : MonoBehaviour
         coinSystem.cost();
         mineGenerator.SetEnemySpawn(true);
     }
+    public void AoeBuff()
+    {
+        coinSystem.cost();
+        projectileShooter._isAoeEnable = true;
+    }
 }
