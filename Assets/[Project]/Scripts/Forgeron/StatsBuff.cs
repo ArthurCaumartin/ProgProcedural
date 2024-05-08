@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class StatsBuff : MonoBehaviour
@@ -7,9 +8,13 @@ public class StatsBuff : MonoBehaviour
     public ProjectileShooter projectileShooter;
     public HealBox healBox;
     public CharacterMovement characterMovement;
+    public CoinSystem coinSystem;
     public void HealUp()
     {
-        healBox.BuffHeal();
+        if(coinSystem.canbuy == true)
+        {
+            healBox.BuffHeal();
+        }
     }
     public void SpeedUp()
     {
