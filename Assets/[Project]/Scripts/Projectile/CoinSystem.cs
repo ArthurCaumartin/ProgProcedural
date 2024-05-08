@@ -25,12 +25,12 @@ public class CoinSystem : MonoBehaviour
     
     public void cost()
     {
-        coin -= 10;
+        Coin -= 10;
         canbuy = false;
     }
     public void CheckCount()
     {
-        if (coin < 10)
+        if (Coin < 10)
         {
             print("t pauvre");
         }
@@ -38,9 +38,5 @@ public class CoinSystem : MonoBehaviour
         {
             canbuy = true;
         }
-    }
-    private void Update()
-    {
-
     }
 }
